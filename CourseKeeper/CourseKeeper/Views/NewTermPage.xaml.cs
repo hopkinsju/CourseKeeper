@@ -5,31 +5,29 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using CourseKeeper.Models;
+using CourseKeeper.ViewModels;
 
 namespace CourseKeeper.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
+	[XamlCompilation(XamlCompilationOptions.Compile)]
     [DesignTimeVisible(false)]
     public partial class NewTermPage : ContentPage
     {
-        public Term Term { get; set; }
-
+		NewTermPageViewModel vm;
+		public Term Term { get; set; }
         public NewTermPage()
         {
             InitializeComponent();
-
-            Term = new Term
-            {
-                Name = "Item name",
-            };
-
-            BindingContext = this;
+			vm = new NewTermPageViewModel();
+			BindingContext = vm;
+			//Term = new Term();
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Term);
+			vm.AddTerm();
             await Navigation.PopModalAsync();
         }
 

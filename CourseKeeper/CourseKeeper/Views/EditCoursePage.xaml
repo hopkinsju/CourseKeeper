@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sys="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" x:Class="CourseKeeper.Views.NewTermPage" Title="New Item">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CourseKeeper.Views.EditCoursePage"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Title="Edit Course">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked" />
         <ToolbarItem Text="Save" Clicked="Save_Clicked" />
     </ContentPage.ToolbarItems>
-    <ContentPage.Content>
+	<ContentPage.Content>
 		<ScrollView>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding TermName}" d:Text="" FontSize="Small" />
-            <Label Text="Start Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding TermStartDate}">
+        <StackLayout Spacing="10" Padding="10" VerticalOptions="FillAndExpand">
+            <Label Text="Course" FontSize="Medium" />
+            <Entry Text="{Binding Name}" d:Text="Enter Course Name" FontSize="Small" />
+			<Label Text="Start Date" />
+            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding StartDate}">
                 <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
                 <DatePicker.MinimumDate>
                     <sys:DateTime x:FactoryMethod="Parse">
@@ -28,7 +35,7 @@
                 </DatePicker.MaximumDate>
             </DatePicker>
             <Label Text="End Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding TermEndDate}">
+            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding EndDate}">
                 <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
                 <DatePicker.MinimumDate>
                     <sys:DateTime x:FactoryMethod="Parse">
@@ -45,7 +52,10 @@
                     </sys:DateTime>
                 </DatePicker.MaximumDate>
             </DatePicker>
+			<Label Text="Send Notifications Before Course End?"/>
+			<Switch x:Name="CourseNotificationToggle" IsToggled="{Binding Notifications}" />
         </StackLayout>
-		</ScrollView>
+			</ScrollView>
     </ContentPage.Content>
 </ContentPage>
+

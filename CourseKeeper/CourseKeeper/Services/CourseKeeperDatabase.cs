@@ -1,61 +1,72 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CourseKeeper.Models;
 using SQLite;
-
 namespace CourseKeeper.Services
 {
-    public class CourseKeeperDatabase : ICourseDataStore<Term>
-    {
-        List<Term> items;
-        static SQLiteAsyncConnection database;
-        public static SQLiteAsyncConnection Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    database = new SQLiteAsyncConnection(
-                        System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CourseKeeperSQLite.db3"));
-                }
-                return database;
-            }
-        }
+	public class CourseKeeperDatabase
+	{
+		readonly SQLiteAsyncConnection database;
 
-        public CourseKeeperDatabase(string dbPath)
-        {
-            database = new SQLiteAsyncConnection(dbPath);
-            database.CreateTableAsync<Term>().Wait();
-        }
+		public CourseKeeperDatabase(string dbPath)
+		{
+			database = new SQLiteAsyncConnection(dbPath);
+			database.CreateTablesAsync<Term, Course, Assessment>().Wait();
+		}
 
-        public Task<List<Term>> GetItemsAsync()
-        {
-            return database.Table<Term>().ToListAsync();
-        }
+		public Task<List<Term>> GetTermsAsync()
+		{
+			return database.Table<Term>().ToListAsync();
+		}
 
-        public Task<Term> GetItemAsync(string id)
-        {
-            return database.Table<Term>().Where(i => i.ID == id).FirstOrDefaultAsync();
-        }
+		public Task<Term> GetTermAsync(int id)
+		{
+			return database.Table<Term>()
+				.Where(i => i.ID == id)
+				.FirstOrDefaultAsync();
+		}
 
-        public async Task<bool> SaveItemAsync(Term item)
-        {
-            if (item.ID != null)
-            {
+		public Task<int> SaveTermAsync(Term term)
+		{
+			if (term.ID == 0)
+			{
+				return database.InsertAsync(term);
+			}
+			else
+			{
+				return database.UpdateAsync(term);
+			}
+		}
 
-                return database.UpdateAsync(item).IsCompleted;
-            }
-            else
-            {
-                return database.InsertAsync(item).IsCompleted;
-            }
-        }
+		public Task<int> DeleteTermAsync(Term term)
+		{
+			return database.DeleteAsync(term);
+		}
 
-        public async Task<bool> DeleteItemAsync(Term item)
-        {
-            return database.DeleteAsync(item).IsCompleted;
-        }
-    }
+		public Task<List<Course>> GetCoursesAsync(Term term)
+		{
+			return database.Table<Course>()
+				.Where(a => a.TermID == term.ID).ToListAsync();
+		}
+
+		public Task<int> SaveCourseAsync(Course course)
+		{
+			if (course.ID == 0)
+			{
+				return database.InsertAsync(course);
+			}
+			else
+			{
+				return database.UpdateAsync(course);
+			}
+		}
+		public Task<int> DeleteCourseAsync(Course course)
+		{
+			return database.DeleteAsync(course);
+		}
+
+   	}
+
 }

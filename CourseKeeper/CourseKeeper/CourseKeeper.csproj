@@ -23,6 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\EmptyInterface.cs" />
+    <Compile Remove="Services\ICourseDataStore.cs" />
+    <Compile Remove="Services\IDataStore.cs" />
+    <Compile Remove="Services\MockDataStore.cs" />
+    <Compile Remove="Views\NewCoursePage.cs" />
+    <Compile Remove="Views\NewTermPage %28copy%29.xaml.cs" />
+    <Compile Remove="AppShell.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Views\NewTermPage.xaml.cs">
       <DependentUpon>NewTermPage.xaml</DependentUpon>
     </Compile>
@@ -32,5 +41,25 @@
     <Compile Update="Views\TermsPage.xaml.cs">
       <DependentUpon>TermsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\EditTermPage.xaml.cs">
+      <DependentUpon>EditTermPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\TermDetailPage %28copy%29.xaml.cs">
+      <DependentUpon>CourseDetailPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CourseDetailPage.xaml.cs">
+      <DependentUpon>CourseDetailPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MyPage.xaml.cs">
+      <DependentUpon>EditCoursePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EditCoursePage.xaml.cs">
+      <DependentUpon>EditCoursePage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="AppShell.xaml" />
   </ItemGroup>
 </Project>

@@ -9,12 +9,13 @@ namespace CourseKeeper
 {
     public partial class App : Application
     {
+		static CourseKeeperDatabase database;
 
         public App()
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
             MainPage = new NavigationPage(new TermsPage());
         }
 
@@ -32,5 +33,19 @@ namespace CourseKeeper
         {
             // Handle when your app resumes
         }
+
+		public static CourseKeeperDatabase Database
+		{
+			get
+			{
+				if (database == null)
+				{
+					database = new CourseKeeperDatabase(
+						DependencyService.Get<IFileHelper>().GetLocalFilePath("CourseKeeperSQLite.db3"));
+				}
+				return database;
+			}
+		}
+
     }
 }

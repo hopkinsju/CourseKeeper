@@ -6,7 +6,7 @@ using CourseKeeper.Models;
 
 namespace CourseKeeper.Services
 {
-    public class MockDataStore : ICourseDataStore<Term>
+    public class MockDataStore 
     {
         List<Term> terms;
 
@@ -16,14 +16,12 @@ namespace CourseKeeper.Services
             var mockItems = new List<Term>
             {
                 new Term {
-                    ID = Guid.NewGuid().ToString(),
                     Name = "First term",
                     StartDate = new DateTime(2019, 01, 01),
                     EndDate = new DateTime(2019,06,30),
                     CourseList = new List<Course>()
                 },
                 new Term {
-                    ID = Guid.NewGuid().ToString(),
                     Name = "Second term",
                     StartDate = new DateTime(2019, 01, 01),
                     EndDate = new DateTime(2019,06,30),

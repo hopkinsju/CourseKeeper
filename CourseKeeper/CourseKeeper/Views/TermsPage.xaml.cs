@@ -13,9 +13,10 @@ using CourseKeeper.ViewModels;
 
 namespace CourseKeeper.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	// Learn more about making custom code visible in the Xamarin.Forms previewer
+	// by visiting https://aka.ms/xamarinforms-previewer
+	[DesignTimeVisible(false)]
     public partial class TermsPage : ContentPage
     {
         TermsViewModel viewModel;
@@ -23,7 +24,6 @@ namespace CourseKeeper.Views
         public TermsPage()
         {
             InitializeComponent();
-
             BindingContext = viewModel = new TermsViewModel();
         }
 

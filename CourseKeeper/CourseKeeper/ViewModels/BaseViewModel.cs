@@ -12,9 +12,6 @@ namespace CourseKeeper.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public ICourseDataStore<Term> DataStore => DependencyService.Get<ICourseDataStore<Term>>() ?? new MockDataStore();
-        //public ICourseDataStore<Term> DataStore => new MockDataStore();
-
         bool isBusy = false;
         public bool IsBusy
         {

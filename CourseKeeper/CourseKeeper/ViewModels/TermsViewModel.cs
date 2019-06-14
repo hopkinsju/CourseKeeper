@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using CourseKeeper.Models;
 using CourseKeeper.Views;
+using System.Collections.Generic;
 
 namespace CourseKeeper.ViewModels
 {
@@ -19,15 +20,27 @@ namespace CourseKeeper.ViewModels
         {
             Title = "CourseKeeper";
             Terms = new ObservableCollection<Term>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+           	LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+			PopulateTerms();
 
-            MessagingCenter.Subscribe<NewTermPage, Term>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewTermPage, Term>(this, "AddItem", async (obj, term) =>
             {
-                var newItem = item as Term;
-                Terms.Add(newItem);
-                await DataStore.SaveItemAsync(newItem);
+				Terms.Add(term);
             });
-        }
+			MessagingCenter.Subscribe<TermDetailPage, Term>(this, "TermDelete", async (obj, term) =>
+			{
+				Terms.Remove(term);
+			});
+		}
+
+		private async void PopulateTerms()
+		{
+			List<Term> terms = await App.Database.GetTermsAsync();
+			foreach (Term term in terms)
+			{
+				Terms.Add(term);
+			}
+		}
 
         async Task ExecuteLoadItemsCommand()
         {
@@ -38,8 +51,8 @@ namespace CourseKeeper.ViewModels
 
             try
             {
-                //Terms.Clear();
-                var items = await DataStore.GetItemsAsync();
+                Terms.Clear();
+                var items = await App.Database.GetTermsAsync();
                 foreach (var item in items)
                 {
                     Terms.Add(item);
