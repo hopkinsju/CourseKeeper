@@ -48,8 +48,8 @@ namespace CourseKeeper.Views
         {
             base.OnAppearing();
 
-            if (viewModel.Terms.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
+            //if (viewModel.Terms.Count == 0)
+            viewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

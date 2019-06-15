@@ -50,7 +50,6 @@
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CourseDetailPage.xaml.cs">
       <DependentUpon>CourseDetailPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\MyPage.xaml.cs">
       <DependentUpon>EditCoursePage.xaml</DependentUpon>

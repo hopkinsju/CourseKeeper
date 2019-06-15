@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CourseKeeper.Views.EditCoursePage"
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              Title="Edit Course">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked" />
@@ -13,12 +13,14 @@
     </ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
-        <StackLayout Spacing="10" Padding="10" VerticalOptions="FillAndExpand">
-            <Label Text="Course" FontSize="Medium" />
-            <Entry Text="{Binding Name}" d:Text="Enter Course Name" FontSize="Small" />
-			<Label Text="Start Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding StartDate}">
-                <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
+        <StackLayout Spacing="10" Padding="10>
+            <Label Text="Course Name" FontSize="Medium" />
+            <Entry Text="{Binding Name}" d:Text="Enter Course Name" FontSize="Medium" />
+                <Label Text="Course Name" FontSize="Medium" />
+                <Entry Text="{Binding Name}" d:Text="Enter Course Name" FontSize="Medium" />
+                <Label Text="Start Date" />
+            <DatePicker Date="{Binding StartDate}">
+                <!--<DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
                 <DatePicker.MinimumDate>
                     <sys:DateTime x:FactoryMethod="Parse">
                         <x:Arguments>
@@ -32,12 +34,12 @@
                             <x:String>Dec 31 2050</x:String>
                         </x:Arguments>
                     </sys:DateTime>
-                </DatePicker.MaximumDate>
+                </DatePicker.MaximumDate>-->
             </DatePicker>
             <Label Text="End Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding EndDate}">
+            <DatePicker Date="{Binding EndDate}">
                 <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
-                <DatePicker.MinimumDate>
+                <!--<DatePicker.MinimumDate>
                     <sys:DateTime x:FactoryMethod="Parse">
                         <x:Arguments>
                             <x:String>Jan 1 2000</x:String>
@@ -50,7 +52,7 @@
                             <x:String>Dec 31 2050</x:String>
                         </x:Arguments>
                     </sys:DateTime>
-                </DatePicker.MaximumDate>
+                </DatePicker.MaximumDate>-->
             </DatePicker>
 			<Label Text="Send Notifications Before Course End?"/>
 			<Switch x:Name="CourseNotificationToggle" IsToggled="{Binding Notifications}" />

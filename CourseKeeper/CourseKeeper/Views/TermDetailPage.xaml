@@ -8,8 +8,8 @@
 	x:Class="CourseKeeper.Views.TermDetailPage" 
 	Title="{Binding Title}">
 	<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Edit" Clicked="Edit_Clicked" />
-        <ToolbarItem Text="Delete" Clicked="Delete_Clicked" />
+        <ToolbarItem Text="Edit" Command="{Binding EditTermCommand}" />
+        <ToolbarItem Text="Delete" Command="{Binding DeleteTermCommand}" />
     </ContentPage.ToolbarItems>
 	
 	<StackLayout>
@@ -17,7 +17,8 @@
 		<StackLayout VerticalOptions="FillAndExpand">
 					 
 		<Label Text="{Binding TermName}" XAlign="Center" FontSize="Medium"/>
-        <ListView 
+                <Label Text="Courses this term:" IsVisible="{Binding ShowCourseLabel}" />
+                <ListView 
 					x:Name="CourseListView" 
 					ItemsSource="{Binding CourseList}" 
 					HasUnevenRows="true"
