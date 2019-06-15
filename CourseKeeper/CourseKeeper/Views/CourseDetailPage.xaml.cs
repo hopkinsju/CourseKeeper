@@ -15,21 +15,21 @@ namespace CourseKeeper.Views
 	[DesignTimeVisible(false)]
 	public partial class CourseDetailPage : ContentPage
 	{
-		CourseDetailViewModel viewModel;
+        EditCoursePageViewModel viewModel;
 		public Course Course { get; set; }
 
-		public CourseDetailPage(CourseDetailViewModel vm)
+		public CourseDetailPage(EditCoursePageViewModel vm)
 		{
 			InitializeComponent();
 			BindingContext = viewModel = vm;
-			Course = viewModel.Course;
+			//Course = viewModel.Course;
 		}
 
 		public CourseDetailPage(Course course)
 		{
 			InitializeComponent();
 			Course = course;
-			BindingContext = viewModel = new CourseDetailViewModel(Course);
+			BindingContext = viewModel = new EditCoursePageViewModel(Course);
 		}
 
 		async void OnListViewItemSelected(Course course)

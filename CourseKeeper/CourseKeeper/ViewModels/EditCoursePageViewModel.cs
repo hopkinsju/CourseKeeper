@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CourseKeeper.Models;
 using Xamarin.Forms;
 
@@ -6,34 +8,78 @@ namespace CourseKeeper.ViewModels
 {
 	public class EditCoursePageViewModel : BaseViewModel
 	{
-		public string Name { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public string Status { get; set; }
-		public string InstructorName { get; set; }
-		public string InstructorPhone { get; set; }
-		public string InstructorEmail { get; set; }
-		public string Notes { get; set; }
-		public bool Notifications { get; set; }
-		public int CourseID { get; set; }
+        private Course _course;
+        public string Name
+        {
+            get { return _course.Name; }
+            set { _course.Name = value; OnPropertyChanged(); }
+        }
+		public DateTime StartDate
+        {
+            get { return _course.StartDate; }
+            set { _course.StartDate = value; OnPropertyChanged(); }
+        }
+		public DateTime EndDate
+        {
+            get { return _course.EndDate; }
+            set { _course.EndDate = value; OnPropertyChanged(); }
+        }
+		public string CurrentStatus
+        {
+            get { return _course.Status; }
+            set { _course.Status = value; OnPropertyChanged(); }
+        }
+        public List<string> StatusList { get; } = new List<string> { "Enrolled", "Not Enrolled" };
+        public string InstructorName
+        {
+            get { return _course.InstructorName; }
+            set { _course.InstructorName = value; OnPropertyChanged(); }
+        }
+		public string InstructorPhone
+        {
+            get { return _course.InstructorPhone; }
+            set { _course.InstructorPhone = value; OnPropertyChanged(); }
+        }
+		public string InstructorEmail
+        {
+            get { return _course.InstructorEmail; }
+            set { _course.InstructorEmail = value; OnPropertyChanged(); }
+        }
+		public string Notes
+        {
+            get { return _course.Notes; }
+            set { _course.Notes = value; OnPropertyChanged(); }
+        }
+		public bool Notifications
+        {
+            get { return _course.Notifications; }
+            set { _course.Notifications = value; OnPropertyChanged(); }
+        }
+        public Command SaveCourseCommand { get; set; }
+        public Command CancelEditCommand { get; set; }
 
 		public EditCoursePageViewModel(Course course)
 		{
-			CourseID = course.ID;
-			Name = course.Name;
-			StartDate = course.StartDate;
-			EndDate = course.EndDate;
-				Status = course.Status;
-			InstructorName = course.InstructorName;
-			InstructorPhone = course.InstructorPhone;
-			InstructorEmail = course.InstructorEmail;
-			Notes = course.Notes;
-				Notifications = course.Notifications;
-		}
-		public void SaveCourse(Course course)
+            _course = course;
+            SaveCourseCommand = new Command(async () => await ExecuteSaveCourseCommand());
+            CancelEditCommand = new Command(async () => await ExecuteCancelEditCommand());
+        }
+		public void SaveCourse()
 		{
-			App.Database.SaveCourseAsync(course);
-			MessagingCenter.Send(this, "UpdateCourse", course);
+			App.Database.SaveCourseAsync(_course);
+			MessagingCenter.Send(this, "UpdateCourse", _course);
 		}
+
+        async Task ExecuteSaveCourseCommand()
+        {
+            await App.Database.SaveCourseAsync(_course);
+            await App.Current.MainPage.Navigation.PopAsync();
+            MessagingCenter.Send(this, "UpdateCourse", _course);
+        }
+
+        async Task ExecuteCancelEditCommand()
+        {
+            await App.Current.MainPage.Navigation.PopAsync();
+        }
 	}
 }

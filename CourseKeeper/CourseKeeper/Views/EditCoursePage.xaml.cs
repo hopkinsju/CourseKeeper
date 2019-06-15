@@ -24,16 +24,16 @@ namespace CourseKeeper.Views
 			BindingContext = vm;
 		}
 
-		async void Save_Clicked(object sender, EventArgs e)
-		{
-			vm.SaveCourse(Course);
-			await Navigation.PopAsync();
-			MessagingCenter.Send(this, "UpdateCourse");
-		}
+		//async void Save_Clicked(object sender, EventArgs e)
+		//{
+		//	vm.SaveCourse(Course);
+		//	await Navigation.PopAsync();
+		//	MessagingCenter.Send(this, "UpdateCourse");
+		//}
 
-		async void Cancel_Clicked(object sender, EventArgs e)
-		{
-			await Navigation.PopModalAsync();
-		}
+		//async void Cancel_Clicked(object sender, EventArgs e)
+		//{
+		//	await Navigation.PopModalAsync();
+		//}
 	}
 }

@@ -95,9 +95,6 @@ namespace CourseKeeper.ViewModels
             EditTermCommand = new Command(async () => await ExecuteEditTermCommand());
             DeleteTermCommand = new Command(async () => await ExecuteDeleteTermCommand());
 			GetCourses();
-
-			
-
 			MessagingCenter.Subscribe<NewCoursePage, Course>(this, "AddCourse", (obj, course) =>
 			{
 				CourseList.Add(course);

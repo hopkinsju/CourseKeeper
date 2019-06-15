@@ -48,7 +48,7 @@ namespace CourseKeeper.Views
 			if (item == null)
 				return;
 
-			await Navigation.PushAsync(new CourseDetailPage(new CourseDetailViewModel(item)));
+			await Navigation.PushAsync(new CourseDetailPage(new EditCoursePageViewModel(item)));
 
             // Manually de-select item.
 			CourseListView.SelectedItem = null;

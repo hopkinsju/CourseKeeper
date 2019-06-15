@@ -30,7 +30,6 @@
                         <ContentView>
                             <StackLayout Padding="20">
                                 <Label Text="{Binding Name}" 
-                                d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 FontSize="Medium" />
                             </StackLayout>
