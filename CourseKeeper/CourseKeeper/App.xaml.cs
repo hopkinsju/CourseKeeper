@@ -16,7 +16,7 @@ namespace CourseKeeper
             InitializeComponent();
 
             //DependencyService.Register<MockDataStore>();
-            MainPage = new NavigationPage(new TermsPage());
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

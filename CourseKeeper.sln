@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28917.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseKeeper.Android", "CourseKeeper\CourseKeeper.Android\CourseKeeper.Android.csproj", "{918887F6-E69B-41D0-A282-3E87523F2DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseKeeper", "CourseKeeper\CourseKeeper\CourseKeeper.csproj", "{4AC2BEED-BE95-4DB9-927C-5081A003A883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseKeeper", "CourseKeeper\CourseKeeper\CourseKeeper.csproj", "{4AC2BEED-BE95-4DB9-927C-5081A003A883}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

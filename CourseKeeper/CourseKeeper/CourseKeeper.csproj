@@ -32,33 +32,44 @@
     <Compile Remove="AppShell.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\NewTermPage.xaml.cs">
+    <Compile Update="Views\Term\NewTermPage.xaml.cs">
       <DependentUpon>NewTermPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\TermDetailPage.xaml.cs">
+    <Compile Update="Views\Term\TermDetailPage.xaml.cs">
       <DependentUpon>TermDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\TermsPage.xaml.cs">
-      <DependentUpon>TermsPage.xaml</DependentUpon>
+    <Compile Update="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\EditTermPage.xaml.cs">
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\Term\EditTermPage.xaml.cs">
       <DependentUpon>EditTermPage.xaml</DependentUpon>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\TermDetailPage %28copy%29.xaml.cs">
       <DependentUpon>CourseDetailPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CourseDetailPage.xaml.cs">
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\Course\CourseDetailPage.xaml.cs">
       <DependentUpon>CourseDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MyPage.xaml.cs">
       <DependentUpon>EditCoursePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\EditCoursePage.xaml.cs">
+    <Compile Update="Views\Course\EditCoursePage.xaml.cs">
       <DependentUpon>EditCoursePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="AppShell.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\Assessment\Assessments.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Note\EditNotePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Assessment\" />
   </ItemGroup>
 </Project>

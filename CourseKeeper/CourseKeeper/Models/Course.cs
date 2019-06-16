@@ -16,8 +16,8 @@ namespace CourseKeeper.Models
         public string InstructorName { get; set; }
         public string InstructorPhone { get; set; }
         public string InstructorEmail { get; set; }
-        public string Notes { get; set; }
         public bool Notifications { get; set; }
+        public string Notes { get; set; }
 		public int TermID { get; set; }
     }
 }

@@ -45,11 +45,6 @@ namespace CourseKeeper.ViewModels
             get { return _course.InstructorEmail; }
             set { _course.InstructorEmail = value; OnPropertyChanged(); }
         }
-		public string Notes
-        {
-            get { return _course.Notes; }
-            set { _course.Notes = value; OnPropertyChanged(); }
-        }
 		public bool Notifications
         {
             get { return _course.Notifications; }

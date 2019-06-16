@@ -55,6 +55,7 @@ namespace CourseKeeper.Services
 		{
 			if (course.ID == 0)
 			{
+                database.InsertAsync(new Note());
 				return database.InsertAsync(course);
 			}
 			else
@@ -62,11 +63,34 @@ namespace CourseKeeper.Services
 				return database.UpdateAsync(course);
 			}
 		}
-		public Task<int> DeleteCourseAsync(Course course)
-		{
-			return database.DeleteAsync(course);
-		}
+        public Task<int> DeleteCourseAsync(Course course)
+        {
+            return database.DeleteAsync(course);
+        }
 
-   	}
+        public Task<Note> GetNotesAsync(Course course)
+        {
+            return database.Table<Note>()
+                .Where(a => a.CourseID == course.ID).FirstOrDefaultAsync();
+        }
+
+        public Task<int> SaveNoteAsync(Note note)
+        {
+            if (note.ID == 0)
+            {
+                return database.InsertAsync(note);
+            }
+            else
+            {
+                return database.UpdateAsync(note);
+            }
+        }
+
+        public Task<int> DeleteNoteAsync(Note note)
+        {
+            return database.DeleteAsync(note);
+        }
+
+    }
 
 }
