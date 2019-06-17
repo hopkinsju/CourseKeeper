@@ -1,51 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sys="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" x:Class="CourseKeeper.Views.NewTermPage" Title="New Item">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CourseKeeper.Views.NewTermPage"
+             Title="New Term">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked" />
-        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+        <ToolbarItem Text="Save"
+                     Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-		<ScrollView>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding TermName}" d:Text="" FontSize="Small" />
-            <Label Text="Start Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding TermStartDate}">
-                <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
-                <DatePicker.MinimumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Jan 1 2000</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MinimumDate>
-                <DatePicker.MaximumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Dec 31 2050</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MaximumDate>
-            </DatePicker>
-            <Label Text="End Date" />
-            <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding TermEndDate}">
-                <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
-                <DatePicker.MinimumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Jan 1 2000</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MinimumDate>
-                <DatePicker.MaximumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Dec 31 2050</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MaximumDate>
-            </DatePicker>
-        </StackLayout>
-		</ScrollView>
+        <ScrollView>
+            <StackLayout Spacing="20"
+                         Padding="15">
+                <Label Text="Text"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Name}"
+                       d:Text=""
+                       FontSize="Medium" />
+                <Label Text="Start Date" />
+                <DatePicker VerticalOptions="Fill"
+                            Date="{Binding StartDate}"
+                            Format="MM-dd-yyyy" />
+                <Label Text="End Date" />
+                <DatePicker VerticalOptions="Fill"
+                            Date="{Binding EndDate}"
+                            Format="MM-dd-yyyy" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

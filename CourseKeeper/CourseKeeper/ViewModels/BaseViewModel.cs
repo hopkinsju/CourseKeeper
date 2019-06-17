@@ -49,6 +49,10 @@ namespace CourseKeeper.ViewModels
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public void RaiseAllProperties()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+        }
         #endregion
     }
 }

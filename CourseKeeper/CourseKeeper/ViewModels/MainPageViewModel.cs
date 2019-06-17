@@ -13,34 +13,59 @@ namespace CourseKeeper.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        public ObservableCollection<Term> Terms { get; set; }
+        private ObservableCollection<Term> _terms;
+        public ObservableCollection<Term> Terms
+        {
+            get
+            {
+                return _terms;
+            }
+            set
+            {
+                _terms = value;
+                OnPropertyChanged();
+            }
+        }
         public Command LoadItemsCommand { get; set; }
+        public Command AddTermCommand { get; set; }
 
         public MainPageViewModel()
         {
             Title = "CourseKeeper";
-            Terms = new ObservableCollection<Term>();
+            _terms = new ObservableCollection<Term>();
            	LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-			PopulateTerms();
+            AddTermCommand = new Command(async () => await ExecuteAddTermCommand());
+            PopulateTerms();
 
-            MessagingCenter.Subscribe<NewTermPage, Term>(this, "AddItem", (obj, term) =>
+            MessagingCenter.Subscribe<NewTermPageViewModel, Term>(this, "AddTerm", (sender, obj) =>
             {
-				Terms.Add(term);
+				Terms.Add(obj);
             });
-			MessagingCenter.Subscribe<TermDetailPage, Term>(this, "TermDelete", (obj, term) =>
+			MessagingCenter.Subscribe<TermDetailViewModel, Term>(this, "TermDelete", (sender, obj) =>
 			{
-				Terms.Remove(term);
+				Terms.Remove(obj);
 			});
-		}
+            MessagingCenter.Subscribe<NewTermPageViewModel>(this, "TermUpdate", async (obj) =>
+            {
+                await ExecuteLoadItemsCommand();
+            });
 
-		private async void PopulateTerms()
+        }
+
+        private async void PopulateTerms()
 		{
 			List<Term> terms = await App.Database.GetTermsAsync();
+            Terms.Clear();
 			foreach (Term term in terms)
 			{
 				Terms.Add(term);
 			}
 		}
+
+        async Task ExecuteAddTermCommand()
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new NewTermPage());
+        }
 
         async Task ExecuteLoadItemsCommand()
         {

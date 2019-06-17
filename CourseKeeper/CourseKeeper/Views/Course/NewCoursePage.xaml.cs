@@ -14,12 +14,21 @@ namespace CourseKeeper.Views
 	{
 
 		NewCoursePageViewModel viewModel;
-		public Term Term { get; set; }
+        private Term _term;
+		public Term Term
+        {
+            get { return _term; }
+            set
+            {
+                _term = value;
+                OnPropertyChanged();
+            }
+        }
 
 		public NewCoursePage(Term term)
 		{
 			InitializeComponent();
-			Term = term;
+            _term = term;
 			BindingContext = viewModel = new NewCoursePageViewModel(Term);
 		}
 	}

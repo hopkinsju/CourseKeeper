@@ -29,27 +29,22 @@ namespace CourseKeeper.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Term;
-            if (item == null)
+            var term = args.SelectedItem as Term;
+            if (term == null)
                 return;
 
-            await Navigation.PushAsync(new TermDetailPage(new TermDetailViewModel(item)));
+            await Navigation.PushAsync(new TermDetailPage(term));
 
             // Manually de-select item.
             ItemsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new NewTermPage()));
-        }
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            //if (viewModel.Terms.Count == 0)
-            //viewModel.LoadItemsCommand.Execute(null);
-        }
+        //    //if (viewModel.Terms.Count == 0)
+        //    //viewModel.LoadItemsCommand.Execute(null);
+        //}
     }
 }

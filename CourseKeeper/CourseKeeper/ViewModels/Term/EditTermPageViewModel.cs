@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CourseKeeper.Models;
 using Xamarin.Forms;
 
@@ -6,45 +7,75 @@ namespace CourseKeeper.ViewModels
 {
 	public class EditTermPageViewModel : BaseViewModel
 	{
-		public Term Term;
-		public TermDetailViewModel DetailViewModel;
+		private Term _term;
+        public Term Term
+        {
+            get
+            {
+                return _term;
+            }
+            set
+            {
+                _term = value;
+                OnPropertyChanged();
+            }
+        }
 		public string TermName { 
 			get
 			{
-				return Term.Name;
+				return _term.Name;
 			} 
 			set {
-					DetailViewModel.Term.Name = value;
-					OnPropertyChanged();
-					OnPropertyChanged(DetailViewModel.TermName);
-				
+                _term.Name = value;
+				OnPropertyChanged();
 			} 
 		}
-		public DateTime TermStartDate { get; set; }
-		public DateTime TermEndDate { get; set; }
+        public string TermStartDate
+        {
+            get
+            {
+                return _term.StartDate.ToShortDateString();
+            }
+            set
+            {
+                _term.StartDate = DateTime.Parse(value);
+                OnPropertyChanged();
+            }
+        }
+        public string TermEndDate
+        {
+            get
+            {
+                return _term.EndDate.ToShortDateString();
+            }
+            set
+            {
+                _term.EndDate = DateTime.Parse(value);
+                OnPropertyChanged();
+            }
+        }
+        public Command SaveCommand { get; set; }
+        public Command CancelCommand { get; set; }
 
-		public EditTermPageViewModel(TermDetailViewModel vm)
+        public TermDetailViewModel viewModel;
+
+        public EditTermPageViewModel(Term term)
 		{
-			DetailViewModel = vm;
-			Term = DetailViewModel.Term;
-			UpdateFields();
-		}
+            _term = term;
+            SaveCommand = new Command(async () => await ExecuteSaveCommand());
+            CancelCommand = new Command(async () => await ExecuteTermEditCancelCommand());
+        }
 
-		public void UpdateTerm(Term term)
-		{
-			DetailViewModel.Term = term;
-			//term.Name = TermName;
-			//term.StartDate = TermStartDate;
-			//term.EndDate = TermEndDate;
-			App.Database.SaveTermAsync(term);
-			MessagingCenter.Send<EditTermPageViewModel, Term>(this, "UpdateTerm", term);
-		}
+        async Task ExecuteSaveCommand()
+        {
+            await App.Database.SaveTermAsync(Term);
+            MessagingCenter.Send<EditTermPageViewModel, Term>(this, "UpdateTerm", Term);
+            await App.Current.MainPage.Navigation.PopAsync();
+        }
 
-		public void UpdateFields() {
-			TermName = Term.Name;
-			TermStartDate = Term.StartDate;
-			TermEndDate = Term.EndDate;
-		}
-
-	}
+        async Task ExecuteTermEditCancelCommand()
+        {
+            await App.Current.MainPage.Navigation.PopAsync();
+        }
+    }
 }

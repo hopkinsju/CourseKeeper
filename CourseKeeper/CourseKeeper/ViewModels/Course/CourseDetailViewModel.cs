@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CourseKeeper.Models;
 using CourseKeeper.Views;
@@ -55,7 +56,7 @@ namespace CourseKeeper.ViewModels
                 OnPropertyChanged();
             }
         }
-		public string Status
+		public string CurrentStatus
         {
             get
             {
@@ -67,7 +68,7 @@ namespace CourseKeeper.ViewModels
                 OnPropertyChanged();
             }
         }
-		public string InstructorName
+        public string InstructorName
         {
             get
             {
@@ -132,18 +133,22 @@ namespace CourseKeeper.ViewModels
         public Command DeleteCourseCommand { get; set; }
         public Command EditNotesCommand { get; set; }
         public Command ShareNotesCommand { get; set; }
+        public Command ManageAssessmentsCommand { get; set; }
 
-		public CourseDetailViewModel(Course course)
+
+        public CourseDetailViewModel(Course course)
 		{
             _course = course;
             EditCourseCommand = new Command(async () => await ExecuteEditCourseCommand());
             DeleteCourseCommand = new Command(async () => await ExecuteDeleteCourseCommand());
             EditNotesCommand = new Command(async () => await ExecuteEditNotesCommand());
+            ManageAssessmentsCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new AssessmentViewModel()));
 
-            //MessagingCenter.Subscribe<EditCoursePage, Course>(this, "UpdateCourse", async (obj, Course) =>
-            //{
-            //	Name = Course.Name;
-            //});
+            MessagingCenter.Subscribe<EditCoursePageViewModel, Course>(this, "UpdateCourse", (sender, obj) =>
+            {
+                Course = obj;
+                RaiseAllProperties();
+            });
         }
 
         async Task ExecuteEditNotesCommand()
@@ -154,6 +159,7 @@ namespace CourseKeeper.ViewModels
         async Task ExecuteDeleteCourseCommand()
         {
             await App.Database.DeleteCourseAsync(Course);
+            MessagingCenter.Send<CourseDetailViewModel, Course>(this, "DeleteCourse", Course);
             await App.Current.MainPage.Navigation.PopAsync();
         }
 

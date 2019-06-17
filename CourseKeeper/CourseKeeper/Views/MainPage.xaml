@@ -43,6 +43,6 @@
 		</ScrollView>
 		<Button
             Text="Add Term" 
-            Clicked="AddItem_Clicked"  />
+            Command="{Binding AddTermCommand}"  />
 	</StackLayout>
 </ContentPage>

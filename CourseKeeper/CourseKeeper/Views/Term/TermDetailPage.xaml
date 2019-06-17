@@ -9,7 +9,8 @@
 	Title="Term Detail">
 	<ContentPage.ToolbarItems>
         <ToolbarItem Text="Edit" Command="{Binding EditTermCommand}" />
-        <ToolbarItem Text="Delete" Command="{Binding DeleteTermCommand}" />
+        <ToolbarItem Text="Delete"
+                     Command="{Binding DeleteTermCommand}" />
     </ContentPage.ToolbarItems>
 	
 	<StackLayout>

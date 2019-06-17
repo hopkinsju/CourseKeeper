@@ -15,24 +15,24 @@ namespace CourseKeeper.Views
     [DesignTimeVisible(false)]
     public partial class EditTermPage : ContentPage
     {
-		EditTermPageViewModel vm;
-		public Term Term { get; set; }
-        public EditTermPage(EditTermPageViewModel viewModel)
+        private Term _term;
+		public Term Term
+        {
+            get
+            {
+                return _term;
+            }
+            set
+            {
+                _term = value;
+                OnPropertyChanged();
+            }
+        }
+        public EditTermPage(Term term)
         {
             InitializeComponent();
-			Term = viewModel.Term;
-			BindingContext = vm = viewModel;
-        }
-
-        async void Save_Clicked(object sender, EventArgs e)
-        {
-			vm.UpdateTerm(Term);
-            await Navigation.PopAsync();
-        }
-
-        async void Cancel_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopModalAsync();
+            _term = term;
+			BindingContext = new EditTermPageViewModel(Term);
         }
     }
 }

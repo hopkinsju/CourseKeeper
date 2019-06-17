@@ -91,6 +91,35 @@ namespace CourseKeeper.Services
             return database.DeleteAsync(note);
         }
 
+        public Task<int> SaveAssessmentAsync(Assessment assesssment)
+        {
+            if (assesssment.ID == 0)
+            {
+                return database.InsertAsync(assesssment);
+            }
+            else
+            {
+                return database.UpdateAsync(assesssment);
+            }
+        }
+
+        public Task<int> DeleteAssessmentAsync(Assessment assesssment)
+        {
+            return database.DeleteAsync(assesssment);
+        }
+
+        public Task<Assessment> GetAssessmentObjective(int CourseID)
+        {
+            return database.Table<Assessment>()
+                .Where(a => a.CourseID == CourseID && a.AssessmentType == "Objective").FirstOrDefaultAsync();
+        }
+
+        public Task<Assessment> GetAssessmentPerformance(int CourseID)
+        {
+            return database.Table<Assessment>()
+                .Where(a => a.CourseID == CourseID && a.AssessmentType == "Performance").FirstOrDefaultAsync();
+        }
+
     }
 
 }

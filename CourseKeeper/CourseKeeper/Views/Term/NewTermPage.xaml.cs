@@ -15,25 +15,11 @@ namespace CourseKeeper.Views
     [DesignTimeVisible(false)]
     public partial class NewTermPage : ContentPage
     {
-		NewTermPageViewModel vm;
-		public Term Term { get; set; }
         public NewTermPage()
         {
             InitializeComponent();
-			vm = new NewTermPageViewModel();
-			BindingContext = vm;
-			//Term = new Term();
-        }
-
-        async void Save_Clicked(object sender, EventArgs e)
-        {
-			vm.AddTerm();
-            await Navigation.PopModalAsync();
-        }
-
-        async void Cancel_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopModalAsync();
+            NewTermPageViewModel viewModel;
+            BindingContext = viewModel = new NewTermPageViewModel(); ;
         }
     }
 }

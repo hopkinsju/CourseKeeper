@@ -11,9 +11,9 @@ using System.Diagnostics;
 
 namespace CourseKeeper.ViewModels
 {
-	public class TermDetailViewModel : BaseViewModel
-	{
-		private Term _term = new Term();
+    public class TermDetailViewModel : BaseViewModel
+    {
+        private Term _term;
         private bool _showCourseLabel = false;
         public Term Term
         {
@@ -30,43 +30,44 @@ namespace CourseKeeper.ViewModels
 
         #region Props
         public string TermName
-		{
-			get
-			{
-				return _term.Name;
-			}
-			set
-			{
-				_term.Name = value;
-				OnPropertyChanged();
-			}
-		}
-		public string TermStartDate
-		{
-			get
-			{
-				return _term.StartDate.ToShortDateString();
-			}
-			set
-			{
-				_term.StartDate = DateTime.Parse(value);
-				OnPropertyChanged();
-			}
-		}
-		public string TermEndDate
-		{
-			get
-			{
-				return _term.EndDate.ToShortDateString();
-			}
-			set
-			{
+        {
+            get
+            {
+                return _term.Name;
+            }
+            set
+            {
+                _term.Name = value;
+                OnPropertyChanged();
+            }
+        }
+        public string TermStartDate
+        {
+            get
+            {
+                return _term.StartDate.ToShortDateString();
+            }
+            set
+            {
+                _term.StartDate = DateTime.Parse(value);
+                OnPropertyChanged();
+            }
+        }
+        public string TermEndDate
+        {
+            get
+            {
+                return _term.EndDate.ToShortDateString();
+            }
+            set
+            {
                 _term.EndDate = DateTime.Parse(value);
                 OnPropertyChanged();
-			}
-		}
+            }
+        }
         public ObservableCollection<Course> CourseList { get; set; }
-        public bool ShowCourseLabel {
+        public bool ShowCourseLabel
+        {
             get
             {
                 return _showCourseLabel;
@@ -86,77 +87,75 @@ namespace CourseKeeper.ViewModels
         public Command AddCourseCommand { get; set; }
         #endregion
 
-        public TermDetailViewModel(Term term = null)
+        public TermDetailViewModel(Term term)
 
-		{
-			_term = term;
-			CourseList = new ObservableCollection<Course>();
-			LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+        {
+            _term = term;
+            CourseList = new ObservableCollection<Course>();
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             EditTermCommand = new Command(async () => await ExecuteEditTermCommand());
             DeleteTermCommand = new Command(async () => await ExecuteDeleteTermCommand());
-            AddCourseCommand = new Command(async () => await ExecuteAddCourseCommand()); 
-
+            AddCourseCommand = new Command(async () => await ExecuteAddCourseCommand());
             GetCourses();
-			MessagingCenter.Subscribe<NewCoursePage, Course>(this, "AddCourse", (obj, course) =>
-			{
-				CourseList.Add(course);
-			});
-			MessagingCenter.Subscribe<EditTermPageViewModel, Term>(this, "UpdateTerm", (sender, obj) =>
-			{
-				UpdateFields(obj);
-			});
 
-		}
+            MessagingCenter.Subscribe<NewCoursePageViewModel, Course>(this, "AddCourse", (sender, obj) =>
+            {
+                CourseList.Add(obj);
+            });
+            MessagingCenter.Subscribe<EditTermPageViewModel, Term>(this, "UpdateTerm", (sender, obj) =>
+            {
+                Term = obj;
+                RaiseAllProperties();
+            });
+            MessagingCenter.Subscribe<CourseDetailViewModel, Course>(this, "DeleteCourse", (sender, obj) =>
+            {
+                CourseList.Remove(obj);
+                RaiseAllProperties();
+            });
+        }
 
-        public void UpdateFields(Term term)
-		{
-			TermName = term.Name;
-			TermStartDate = term.StartDate.ToShortDateString();
-			TermEndDate = term.EndDate.ToShortDateString();
-		}
-
-		private async void GetCourses()
-		{
-			List<Course> courses = await App.Database.GetCoursesAsync(_term);
-			foreach (Course course in courses)
-			{
-				CourseList.Add(course);
-			}
+        private async void GetCourses()
+        {
+            List<Course> courses = await App.Database.GetCoursesAsync(_term);
+            foreach (Course course in courses)
+            {
+                CourseList.Add(course);
+            }
             if (CourseList.Count > 0)
             {
                 ShowCourseLabel = true;
             }
         }
 
-		async Task ExecuteLoadItemsCommand()
-		{
-			if (IsBusy)
-				return;
+        async Task ExecuteLoadItemsCommand()
+        {
+            if (IsBusy)
+                return;
 
-			IsBusy = true;
+            IsBusy = true;
 
-			try
-			{
-				CourseList.Clear();
-				var items = await App.Database.GetCoursesAsync(Term);
-				foreach (var item in items)
-				{
-					CourseList.Add(item);
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}
-			finally
-			{
-				IsBusy = false;
+            try
+            {
+                CourseList.Clear();
+                var items = await App.Database.GetCoursesAsync(Term);
+                foreach (var item in items)
+                {
+                    CourseList.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
 
-			}
-		}
+            }
+        }
         async Task ExecuteEditTermCommand()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new EditTermPage(new EditTermPageViewModel(this)));
+            await App.Current.MainPage.Navigation.PushAsync(new EditTermPage(Term));
         }
         async Task ExecuteDeleteTermCommand()
         {
@@ -164,14 +163,15 @@ namespace CourseKeeper.ViewModels
             if (answer)
             {
                 await App.Database.DeleteTermAsync(_term);
-                MessagingCenter.Send(this, "TermDelete", _term);
+                MessagingCenter.Send<TermDetailViewModel, Term>(this, "TermDelete", _term);
                 await App.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
         async Task ExecuteAddCourseCommand()
         {
+
             await App.Current.MainPage.Navigation.PushAsync(new NewCoursePage(Term));
         }
 
-	}
+    }
 }

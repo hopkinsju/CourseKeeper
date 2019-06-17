@@ -9,6 +9,18 @@ namespace CourseKeeper.ViewModels
 	public class EditCoursePageViewModel : BaseViewModel
 	{
         private Course _course;
+        public Course Course
+        {
+            get
+            {
+                return _course;
+            }
+            set
+            {
+                _course = value;
+                OnPropertyChanged();
+            }
+        }
         public string Name
         {
             get { return _course.Name; }
@@ -59,17 +71,12 @@ namespace CourseKeeper.ViewModels
             SaveCourseCommand = new Command(async () => await ExecuteSaveCourseCommand());
             CancelEditCommand = new Command(async () => await ExecuteCancelEditCommand());
         }
-		public void SaveCourse()
-		{
-			App.Database.SaveCourseAsync(_course);
-			MessagingCenter.Send(this, "UpdateCourse", _course);
-		}
 
         async Task ExecuteSaveCourseCommand()
         {
-            await App.Database.SaveCourseAsync(_course);
+            await App.Database.SaveCourseAsync(Course);
             await App.Current.MainPage.Navigation.PopAsync();
-            MessagingCenter.Send(this, "UpdateCourse", _course);
+            MessagingCenter.Send<EditCoursePageViewModel, Course>(this, "UpdateCourse", Course);
         }
 
         async Task ExecuteCancelEditCommand()

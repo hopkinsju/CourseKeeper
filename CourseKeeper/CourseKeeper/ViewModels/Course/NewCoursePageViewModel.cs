@@ -9,20 +9,32 @@ namespace CourseKeeper.ViewModels
 	public class NewCoursePageViewModel : BaseViewModel
 	{
         private Course _course;
+        public Course Course
+        {
+            get
+            {
+                return _course;
+            }
+            set
+            {
+                _course = value;
+                OnPropertyChanged();
+            }
+        }
         public string Name
         {
             get { return _course.Name; }
             set { _course.Name = value; OnPropertyChanged(); }
         }
-        public DateTime StartDate
+        public string StartDate
         {
-            get { return _course.StartDate; }
-            set { _course.StartDate = value; OnPropertyChanged(); }
+            get { return _course.StartDate.ToShortDateString(); }
+            set { _course.StartDate = DateTime.Parse(value); }
         }
-        public DateTime EndDate
+        public string EndDate
         {
-            get { return _course.EndDate; }
-            set { _course.EndDate = value; OnPropertyChanged(); }
+            get { return _course.StartDate.ToShortDateString(); }
+            set { _course.EndDate = DateTime.Parse(value); }
         }
         public string CurrentStatus
         {
@@ -67,16 +79,19 @@ namespace CourseKeeper.ViewModels
 
         public NewCoursePageViewModel(Term term)
 		{
+            _course = new Course();
 			TermID = term.ID;
+            StartDate = DateTime.Now.ToShortDateString();
+            EndDate = DateTime.Now.AddMonths(6).ToShortDateString();
             SaveCourseCommand = new Command(async () => await ExecuteSaveCourseCommand());
             CancelEditCommand = new Command(async () => await App.Current.MainPage.Navigation.PopAsync());
         }
 
         async Task ExecuteSaveCourseCommand()
         {
-            await App.Database.SaveCourseAsync(_course);
+            await App.Database.SaveCourseAsync(Course);
             await App.Current.MainPage.Navigation.PopAsync();
-            MessagingCenter.Send(this, "AddCourse", _course);
+            MessagingCenter.Send<NewCoursePageViewModel, Course>(this, "AddCourse", Course);
         }
     }
 }
