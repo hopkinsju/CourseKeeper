@@ -24,12 +24,14 @@
                    FontSize="Small" />
             <Label Text="Start Date" />
             <DatePicker VerticalOptions="Fill"
-                        Date="{Binding TermStartDate}"
-                        Format="MM-dd-yyyy" />
+                        Date="{Binding StartDate}"
+                        Format="MM-dd-yyyy"
+                        MaximumDate="{Binding EndDate}" />
             <Label Text="End Date" />
             <DatePicker VerticalOptions="Fill"
-                        Date="{Binding TermEndDate}"
-                        Format="MM-dd-yyyy" />
+                        Date="{Binding EndDate}"
+                        Format="MM-dd-yyyy"
+                        MinimumDate="{Binding StartDate}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -41,7 +41,8 @@
         </ScrollView>
         
         <StackLayout VerticalOptions="FillAndExpand" Padding="15">
-            <StackLayout VerticalOptions="Start">
+            <StackLayout VerticalOptions="Start"
+                         IsVisible="{Binding AddButtonEnabled}">
                 <Button Text="Add Course" Command="{Binding AddCourseCommand}" />
             </StackLayout>
             <Label XAlign="Center" Text="{Binding TermStartDate, StringFormat='Start Date: {0}'}" />

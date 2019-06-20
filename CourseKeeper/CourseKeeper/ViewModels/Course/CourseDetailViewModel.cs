@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CourseKeeper.Models;
 using CourseKeeper.Views;
+using Plugin.LocalNotifications;
 using Xamarin.Forms;
 
 namespace CourseKeeper.ViewModels
@@ -142,7 +143,9 @@ namespace CourseKeeper.ViewModels
             EditCourseCommand = new Command(async () => await ExecuteEditCourseCommand());
             DeleteCourseCommand = new Command(async () => await ExecuteDeleteCourseCommand());
             EditNotesCommand = new Command(async () => await ExecuteEditNotesCommand());
-            ManageAssessmentsCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new AssessmentViewModel()));
+            ManageAssessmentsCommand = new Command(async () => await ExecuteManageAssessmentsCommand());
+            CrossLocalNotifications.Current.Show("title", "body");
+            CrossLocalNotifications.Current.Show()
 
             MessagingCenter.Subscribe<EditCoursePageViewModel, Course>(this, "UpdateCourse", (sender, obj) =>
             {
@@ -163,6 +166,18 @@ namespace CourseKeeper.ViewModels
             await App.Current.MainPage.Navigation.PopAsync();
         }
 
+        async Task ExecuteManageAssessmentsCommand()
+        {
+            try
+            {
+                await App.Current.MainPage.Navigation.PushAsync(new AssessmentsDetailPage(Course));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
         async Task ExecuteEditCourseCommand()
         {
             await App.Current.MainPage.Navigation.PushAsync(new EditCoursePage(this));

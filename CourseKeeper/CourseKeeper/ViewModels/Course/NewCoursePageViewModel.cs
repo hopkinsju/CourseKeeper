@@ -28,13 +28,27 @@ namespace CourseKeeper.ViewModels
         }
         public string StartDate
         {
-            get { return _course.StartDate.ToShortDateString(); }
-            set { _course.StartDate = DateTime.Parse(value); }
+            get
+            {
+                return _course.StartDate.ToShortDateString();
+            }
+            set
+            {
+                _course.StartDate = DateTime.Parse(value);
+                OnPropertyChanged();
+            }
         }
         public string EndDate
         {
-            get { return _course.StartDate.ToShortDateString(); }
-            set { _course.EndDate = DateTime.Parse(value); }
+            get
+            {
+                return _course.EndDate.ToShortDateString();
+            }
+            set
+            {
+                _course.EndDate = DateTime.Parse(value);
+                OnPropertyChanged();
+            }
         }
         public string CurrentStatus
         {

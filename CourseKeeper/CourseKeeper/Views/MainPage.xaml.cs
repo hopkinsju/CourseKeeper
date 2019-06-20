@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using CourseKeeper.Models;
 using CourseKeeper.Views;
 using CourseKeeper.ViewModels;
+using Plugin.LocalNotifications;
 
 namespace CourseKeeper.Views
 {

@@ -22,11 +22,13 @@
                 <Label Text="Start Date" />
                 <DatePicker VerticalOptions="Fill"
                             Date="{Binding StartDate}"
-                            Format="MM-dd-yyyy" />
+                            Format="MM-dd-yyyy" 
+                            MaximumDate="{Binding EndDate}"/>
                 <Label Text="End Date" />
                 <DatePicker VerticalOptions="Fill"
                             Date="{Binding EndDate}"
-                            Format="MM-dd-yyyy" />
+                            Format="MM-dd-yyyy"
+                            MinimumDate="{Binding StartDate}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

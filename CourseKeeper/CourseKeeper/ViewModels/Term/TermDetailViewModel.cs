@@ -15,6 +15,7 @@ namespace CourseKeeper.ViewModels
     {
         private Term _term;
         private bool _showCourseLabel = false;
+        private bool _addButtonEnabled = true;
         public Term Term
         {
             get
@@ -78,6 +79,18 @@ namespace CourseKeeper.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool AddButtonEnabled
+        {
+            get
+            {
+                return _addButtonEnabled;
+            }
+            set
+            {
+                _addButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands
@@ -101,6 +114,8 @@ namespace CourseKeeper.ViewModels
             MessagingCenter.Subscribe<NewCoursePageViewModel, Course>(this, "AddCourse", (sender, obj) =>
             {
                 CourseList.Add(obj);
+                AddButtonEnabled = CourseList.Count >= 6 ? false : true;
+                RaiseAllProperties();
             });
             MessagingCenter.Subscribe<EditTermPageViewModel, Term>(this, "UpdateTerm", (sender, obj) =>
             {
@@ -110,6 +125,7 @@ namespace CourseKeeper.ViewModels
             MessagingCenter.Subscribe<CourseDetailViewModel, Course>(this, "DeleteCourse", (sender, obj) =>
             {
                 CourseList.Remove(obj);
+                AddButtonEnabled = CourseList.Count >= 6 ? false : true;
                 RaiseAllProperties();
             });
         }
@@ -125,6 +141,9 @@ namespace CourseKeeper.ViewModels
             {
                 ShowCourseLabel = true;
             }
+            AddButtonEnabled = CourseList.Count >= 6 ? false : true;
+            RaiseAllProperties();
+
         }
 
         async Task ExecuteLoadItemsCommand()

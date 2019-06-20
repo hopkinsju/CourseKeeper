@@ -4,12 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="CourseKeeper.Views.Assessment.Assessments">
+             x:Class="CourseKeeper.Views.NewAssessmentPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="20">
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Label Text="Assessment Name:" />
+                <Entry Text="{Binding Name}" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
