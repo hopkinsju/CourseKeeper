@@ -45,8 +45,8 @@
                          IsVisible="{Binding AddButtonEnabled}">
                 <Button Text="Add Course" Command="{Binding AddCourseCommand}" />
             </StackLayout>
-            <Label XAlign="Center" Text="{Binding TermStartDate, StringFormat='Start Date: {0}'}" />
-            <Label XAlign="Center" Text="{Binding TermEndDate, StringFormat='Anticipated End Date: {0}'}"/>
+            <Label XAlign="Center" Text="{Binding StartDate, StringFormat='Start Date: {0}'}" />
+            <Label XAlign="Center" Text="{Binding EndDate, StringFormat='Anticipated End Date: {0}'}"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>

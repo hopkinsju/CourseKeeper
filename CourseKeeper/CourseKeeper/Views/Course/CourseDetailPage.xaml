@@ -78,16 +78,17 @@
                             IsToggled="{Binding Notifications}"
                             Grid.Row="1"
                             Grid.Column="1"
-                            HorizontalOptions="EndAndExpand" />
+                            HorizontalOptions="EndAndExpand"
+                            IsEnabled="False"/>
                 </Grid>
                 <Button Text="Manage Assessments"
                         Command="{Binding ManageAssessmentsCommand}" />
                 <Label Text="Start Date" />
-                <DatePicker Date="{Binding StartDate}">
+                <DatePicker Date="{Binding StartDate}" IsEnabled="False">
                     <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
                 </DatePicker>
                 <Label Text="End Date" />
-                <DatePicker Date="{Binding EndDate}">
+                <DatePicker Date="{Binding EndDate}" IsEnabled="False">
                     <DatePicker.Format>MM-dd-yyyy</DatePicker.Format>
                 </DatePicker>
             </StackLayout>

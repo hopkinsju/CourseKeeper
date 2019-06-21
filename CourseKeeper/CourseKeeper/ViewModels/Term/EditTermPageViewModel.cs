@@ -30,7 +30,7 @@ namespace CourseKeeper.ViewModels
 				OnPropertyChanged();
 			} 
 		}
-        public string TermStartDate
+        public string StartDate
         {
             get
             {
@@ -42,7 +42,7 @@ namespace CourseKeeper.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string TermEndDate
+        public string EndDate
         {
             get
             {

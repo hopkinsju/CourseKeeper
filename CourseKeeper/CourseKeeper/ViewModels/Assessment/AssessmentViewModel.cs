@@ -256,6 +256,7 @@ namespace CourseKeeper.ViewModels
         async Task ExecuteSaveAssessmentCommand()
         {
             await App.Database.SaveAssessmentAsync(Assessment);
+            SetNotify(Notifications, "CourseKeeper", $"{Name} is ending at {EndDate}", "Course", Course.ID, DateTime.Parse(EndDate).AddHours(-36));
             MessagingCenter.Send<AssessmentViewModel, Assessment>(this, "UpdateAssessment", Assessment);
             await App.Current.MainPage.Navigation.PopAsync();
         }

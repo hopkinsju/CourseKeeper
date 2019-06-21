@@ -7,6 +7,9 @@ using Xamarin.Forms;
 
 using CourseKeeper.Models;
 using CourseKeeper.Services;
+using System.Text;
+using System.Security.Cryptography;
+using Plugin.LocalNotifications;
 
 namespace CourseKeeper.ViewModels
 {
@@ -37,6 +40,22 @@ namespace CourseKeeper.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public void SetNotify(bool enabled, string title, string body, string type, int id, DateTime notifyTime)
+        {
+            // This absurd thing should create a pretty close to unique id number for a given course, assessment, etc
+            // by combining the type + id into a string and hashing it, then converting the has to a numeric.
+            int NotifID = BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(type + id.ToString())), 0);
+            if (enabled)
+            {
+
+                CrossLocalNotifications.Current.Show(title, body, NotifID, notifyTime);
+            }
+            else
+            {
+                CrossLocalNotifications.Current.Cancel(NotifID);
+            }
         }
 
         #region INotifyPropertyChanged

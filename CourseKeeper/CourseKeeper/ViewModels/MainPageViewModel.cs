@@ -35,6 +35,10 @@ namespace CourseKeeper.ViewModels
             _terms = new ObservableCollection<Term>();
            	LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             AddTermCommand = new Command(async () => await ExecuteAddTermCommand());
+            if (App.Database.GetTermsAsync().Result.Count == 0)
+            {
+                DoSetup();
+            }
             PopulateTerms();
 
             MessagingCenter.Subscribe<NewTermPageViewModel, Term>(this, "AddTerm", (sender, obj) =>
@@ -91,6 +95,55 @@ namespace CourseKeeper.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private void DoSetup()
+        {
+            var term = new Term()
+            {
+                //ID = 1,
+                Name = "Term 1",
+                StartDate = DateTime.Parse("07/01/2019"),
+                EndDate = DateTime.Parse("12/31/2019")
+            };
+            var course = new Course()
+            {
+                Name = "Course 1",
+                StartDate = DateTime.Parse("07/01/2019"),
+                EndDate = DateTime.Parse("12/31/2019"),
+                Status = "Enrolled",
+                InstructorName = "Justin Hopkins",
+                InstructorPhone = "202-766-7939",
+                InstructorEmail = "jhopk35@wgu.edu",
+                Notifications = true,
+                Notes = "I'm really enjoying this course so far - learning a lot!",
+                TermID = 1
+            };
+            var assessment1 = new Assessment()
+            {
+                AssessmentType = "Performance",
+                StartDate = DateTime.Parse("07/01/2019"),
+                EndDate = DateTime.Parse("12/31/2019"),
+                Name = "Exam 63b",
+                CourseID = 1,
+                Notifications = true
+            };
+            var assessment2 = new Assessment()
+            {
+                AssessmentType = "Objective",
+                StartDate = DateTime.Parse("07/01/2019"),
+                EndDate = DateTime.Parse("12/31/2019"),
+                Name = "Design Project 12c",
+                CourseID = 1,
+                Notifications = true
+            };
+            App.Database.SaveTermAsync(term);
+            App.Database.SaveCourseAsync(course);
+            App.Database.SaveAssessmentAsync(assessment1);
+            App.Database.SaveAssessmentAsync(assessment2);
+            SetNotify(course.Notifications, "CourseKeeper", $"{course.Name} is ending at {course.EndDate}", "Course", course.ID, course.EndDate.AddHours(-36));
+            SetNotify(assessment1.Notifications, "CourseKeeper", $"{assessment1.Name} is ending at {assessment1.EndDate}", "Course", assessment1.ID, assessment1.EndDate.AddHours(-36));
+            SetNotify(assessment2.Notifications, "CourseKeeper", $"{assessment2.Name} is ending at {assessment2.EndDate}", "Course", assessment2.ID, assessment2.EndDate.AddHours(-36));
         }
     }
 }

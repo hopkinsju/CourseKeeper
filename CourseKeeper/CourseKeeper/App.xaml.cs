@@ -4,6 +4,11 @@ using Xamarin.Forms.Xaml;
 using CourseKeeper.Services;
 using CourseKeeper.Views;
 using System.IO;
+using CourseKeeper.Models;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
+using Plugin.LocalNotifications;
 
 namespace CourseKeeper
 {
@@ -21,8 +26,9 @@ namespace CourseKeeper
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+    
         }
+
 
         protected override void OnSleep()
         {
@@ -46,6 +52,22 @@ namespace CourseKeeper
 				return database;
 			}
 		}
+
+        public void SetNotify(bool enabled, string title, string body, string type, int id, DateTime notifyTime)
+        {
+            // This absurd thing should create a pretty close to unique id number for a given course, assessment, etc
+            // by combining the type + id into a string and hashing it, then converting the has to a numeric.
+            int NotifID = BitConverter.ToInt32(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(type + id.ToString())), 0);
+            if (enabled)
+            {
+
+                CrossLocalNotifications.Current.Show(title, body, NotifID, notifyTime);
+            }
+            else
+            {
+                CrossLocalNotifications.Current.Cancel(NotifID);
+            }
+        }
 
     }
 }

@@ -9,7 +9,9 @@
              Title="Edit Course">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Command="{Binding CancelEditCommand}" />
-        <ToolbarItem Text="Save" Command="{Binding SaveCourseCommand}" />
+        <ToolbarItem Text="Save"
+                     Command="{Binding SaveCourseCommand}"
+                      />
     </ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
@@ -35,7 +37,6 @@
                 </Grid>
                 <Label Text="Send Notifications Before Course End?"/>
                 <Switch x:Name="CourseNotificationToggle" IsToggled="{Binding Notifications}" />
-                <Button Text="Manage Assessments" Command="{Binding ManageAssessmentsCommand}" />
                 <Label Text="Start Date" />
                 <DatePicker VerticalOptions="Fill"
                             Date="{Binding StartDate}"

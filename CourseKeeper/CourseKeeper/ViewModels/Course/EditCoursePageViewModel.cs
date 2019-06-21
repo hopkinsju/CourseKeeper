@@ -72,11 +72,29 @@ namespace CourseKeeper.ViewModels
             CancelEditCommand = new Command(async () => await ExecuteCancelEditCommand());
         }
 
+        public bool checkValues(Course course)
+        {
+            return course.Name != "" &&
+                course.InstructorName != "" &&
+                course.InstructorPhone != "" &&
+                course.InstructorEmail != "" &&
+                course.Status != "";
+        }
+
         async Task ExecuteSaveCourseCommand()
         {
-            await App.Database.SaveCourseAsync(Course);
-            await App.Current.MainPage.Navigation.PopAsync();
-            MessagingCenter.Send<EditCoursePageViewModel, Course>(this, "UpdateCourse", Course);
+            if (checkValues(Course))
+            {
+                await App.Database.SaveCourseAsync(Course);
+                await App.Current.MainPage.Navigation.PopAsync();
+                SetNotify(Notifications, "CourseKeeper", $"{Name} is ending at {EndDate}", "Course", Course.ID, EndDate.AddHours(-36));
+                MessagingCenter.Send<EditCoursePageViewModel, Course>(this, "UpdateCourse", Course);
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Fields cannot be left blank, please supply all values", "OK");
+                return;
+            }
         }
 
         async Task ExecuteCancelEditCommand()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using CourseKeeper.Models;
 using CourseKeeper.Views;
@@ -144,8 +145,6 @@ namespace CourseKeeper.ViewModels
             DeleteCourseCommand = new Command(async () => await ExecuteDeleteCourseCommand());
             EditNotesCommand = new Command(async () => await ExecuteEditNotesCommand());
             ManageAssessmentsCommand = new Command(async () => await ExecuteManageAssessmentsCommand());
-            CrossLocalNotifications.Current.Show("title", "body");
-            CrossLocalNotifications.Current.Show()
 
             MessagingCenter.Subscribe<EditCoursePageViewModel, Course>(this, "UpdateCourse", (sender, obj) =>
             {
